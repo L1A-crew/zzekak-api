@@ -23,7 +23,7 @@ class SwaggerConfig {
             .pathsToMatch("${ApiUrl.USER_JOIN_OR_LOGIN}/**")
             .addOpenApiCustomizer(openApiCustomizer())
             .build()
-
+   
     @Bean
     fun customOpenAPI(): OpenAPI =
         OpenAPI()
