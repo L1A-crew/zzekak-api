@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping
     consumes = [MediaType.APPLICATION_JSON_VALUE]
 )
 interface PromiseController {
-    @PostMapping("/promise/test")
+    @PostMapping("/promise/test") 
     fun test(): String
 }
 class PromiseControllerImpl :  PromiseController {
