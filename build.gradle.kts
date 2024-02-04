@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.9.21"
     kotlin("plugin.spring") version "1.9.21"
     kotlin("plugin.jpa") version "1.9.21"
+    kotlin("plugin.serialization") version "1.9.21"
 }
 
 group = "l1a"
@@ -35,6 +36,12 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     implementation(kotlin("stdlib-jdk8"))
+
+    //json serializer
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-webflux
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+
 
     //mariadb
     implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4")

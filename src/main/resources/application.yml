@@ -25,6 +25,9 @@ lia:
   auth:
     public-key-path: ${ZZEKAK_PUBLIC_KEY_PATH}
     private-key-path: ${ZZEKAK_PRIVATE_KEY_PATH}
+  api-key:
+    addr: ${ZZEKAK_ADDR_KEY}
+    coord: ${ZZEKAK_COORD_KEY}
 
 springdoc:
   api-docs:
