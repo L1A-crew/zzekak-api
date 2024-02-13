@@ -11,7 +11,6 @@ data class AddressResponse(
 data class Results(
     val common: Common?,
     val juso: List<Juso>?
-
 ){}
 data class Common (
     val errorMessage: String?,
@@ -21,31 +20,31 @@ data class Common (
     val currentPage: String?,
 ){}
 @JvmRecord
-data class Juso(
-    val detBdNmList: String,
-    val engAddr: String,
-    val rn: String,
-    val emdNm: String,
-    val zipNo: String,
-    val roadAddrPart2: String,
-    val emdNo: String,
-    val sggNm: String,
-    val jibunAddr: String,
-    val siNm: String,
-    val roadAddrPart1: String,
-    val bdNm: String,
-    val admCd: String,
-    val udrtYn: String,
-    val lnbrMnnm: String,
-    val roadAddr: String,
-    val lnbrSlno: String,
-    val buldMnnm: String,
-    val bdKdcd: String,
-    val liNm: String,
-    val rnMgtSn: String,
-    val mtYn: String,
-    val bdMgtSn: String,
-    val buldSlno: String,
+data class Juso(    //해당 클래스는 좌표검색과 공용으로 사용하므로 기본값을 빈값으로 한다.
+    val detBdNmList: String = "",
+    val engAddr: String = "",
+    val rn: String = "",
+    val emdNm: String = "",
+    val zipNo: String = "",
+    val roadAddrPart2: String = "",
+    val emdNo: String = "",
+    val sggNm: String = "",
+    val jibunAddr: String = "",
+    val siNm: String = "",
+    val roadAddrPart1: String = "",
+    val bdNm: String = "",
+    val admCd: String = "",
+    val udrtYn: String = "",
+    val lnbrMnnm: String = "",
+    val roadAddr: String = "",
+    val lnbrSlno: String = "",
+    val buldMnnm: String = "",
+    val bdKdcd: String = "",
+    val liNm: String = "",
+    val rnMgtSn: String = "",
+    val mtYn: String = "",
+    val bdMgtSn: String = "",
+    val buldSlno: String = "",
     val entX: String = "0.0",      //x좌표
     val entY: String = "0.0",      //y좌표
 ){}

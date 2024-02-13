@@ -21,7 +21,7 @@ class ConnectionModule(val confmKey: String) {
         val addrRslt = connectionJuso(keyword)
         addrRslt.results.let { it: Results? ->
             var juso = it?.juso!!.forEach { el ->
-                val addr = AddressObject(el.siNm, el.sggNm, el.zipNo, el.jibunAddr, el.roadAddrPart1,
+                val addr: AddressObject = AddressObject(el.siNm, el.sggNm, el.zipNo, el.jibunAddr, el.roadAddrPart1,
                     el.admCd, el.rnMgtSn, el.udrtYn, el.buldMnnm, el.buldSlno)
                 addrList.add(addr)
             }
@@ -31,14 +31,15 @@ class ConnectionModule(val confmKey: String) {
     }
     fun searchCoordinate(aObj: AddressObject): CoordinateResponse {
         val srchRslt = connectionCoordinate(aObj)
+        var result: CoordinateResponse = CoordinateResponse("0.0", "0.0")
         srchRslt.results.let { it: Results? ->
             it?.juso!!.forEach { el ->
-                return CoordinateResponse(el.entX, el.entY)
+                result = CoordinateResponse(el.entX, el.entY)
             }
         }
-        return CoordinateResponse("0.0", "0.0") //임시처리
+        return result
     }
-    
+
     
     //도로명 주소 검색
     fun connectionJuso(keyword: String
