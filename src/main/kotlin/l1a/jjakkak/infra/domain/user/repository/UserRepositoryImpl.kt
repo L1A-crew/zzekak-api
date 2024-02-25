@@ -20,4 +20,10 @@ internal class UserRepositoryImpl(
     @Transactional
     override fun findUserByAuthenticationIdAndIsRemoved(authenticationId: AuthenticationId, isRemoved: Char): UserQuery? =
         userEntityDao.findUserByAuthenticationIdAndIsRemoved(authenticationId, isRemoved)?.toDomain()
+
+    override fun findUserByUserIdAndIsRemoved(userId: UUID, isRemoved: Char): UserQuery? {
+        return userEntityDao.findUserByUserIdAndIsRemoved(userId, isRemoved)?.toDomain()
+    }
+
+
 }
