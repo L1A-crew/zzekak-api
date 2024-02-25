@@ -18,6 +18,6 @@ internal class UserRepositoryImpl(
     override fun save(user: UserCommand): UserQuery = userEntityDao.save(user.toEntity()).toDomain()
 
     @Transactional
-    override fun findUserByAuthenticationId(authenticationId: AuthenticationId): UserQuery? =
-        userEntityDao.findUserByAuthenticationId(authenticationId)?.toDomain()
+    override fun findUserByAuthenticationIdAndIsRemoved(authenticationId: AuthenticationId, isRemoved: Char): UserQuery? =
+        userEntityDao.findUserByAuthenticationIdAndIsRemoved(authenticationId, isRemoved)?.toDomain()
 }

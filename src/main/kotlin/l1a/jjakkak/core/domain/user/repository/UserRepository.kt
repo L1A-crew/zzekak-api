@@ -7,5 +7,6 @@ import l1a.jjakkak.core.domain.user.UserQuery
 interface UserRepository {
     fun save(user: UserCommand): UserQuery
 
-    fun findUserByAuthenticationId(authenticationId: AuthenticationId): UserQuery?
+    fun findUserByAuthenticationIdAndIsRemoved(authenticationId: AuthenticationId, isRemoved: Char): UserQuery?
+
 }

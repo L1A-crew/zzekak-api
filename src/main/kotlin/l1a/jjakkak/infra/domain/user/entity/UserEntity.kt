@@ -11,6 +11,7 @@ import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import l1a.jjakkak.core.domain.user.UserId
 import l1a.jjakkak.infra.domain.user.entity.UserEntity.Companion.TABLE_USER
+import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -35,11 +36,16 @@ class UserEntity(
     @LastModifiedDate
     lateinit var updatedAt: Instant
 
+    @Column(name = IS_REMOVED)
+    var isRemoved: Char = 'N'
+
+
     companion object {
         const val TABLE_USER = "user"
         const val COLUMN_USER_ID = "user_id"
         const val CREATED_AT = "created_at"
         const val COLUMN_UPDATED_AT = "updated_at"
+        const val IS_REMOVED = "is_removed"
 
     }
 }

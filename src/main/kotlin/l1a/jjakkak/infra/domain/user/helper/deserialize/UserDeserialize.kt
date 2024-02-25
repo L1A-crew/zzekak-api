@@ -9,6 +9,7 @@ interface UserDeserialize: AuthenticationDeserialize {
             id = userId,
             authentication = authenticationEntity.toDomain(),
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
+            isRemoved = isRemoved
         )
 }

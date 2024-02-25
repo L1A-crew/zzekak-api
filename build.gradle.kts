@@ -42,6 +42,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-webflux
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
+    implementation ("com.google.code.gson:gson:2.8.8")
+
 
     //mariadb
     implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4")

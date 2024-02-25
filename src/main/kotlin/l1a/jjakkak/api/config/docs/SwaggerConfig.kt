@@ -20,7 +20,7 @@ class SwaggerConfig {
     fun authApi(): GroupedOpenApi =
         GroupedOpenApi.builder()
             .group("user API")
-            .pathsToMatch("${ApiUrl.USER_JOIN_OR_LOGIN}/**")
+            .pathsToMatch("${ApiUrl.USER}/**")
             .addOpenApiCustomizer(openApiCustomizer())
             .build()
 

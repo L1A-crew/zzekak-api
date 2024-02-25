@@ -10,11 +10,14 @@ interface UserEntityDao {
     fun save(entity: UserEntity): UserEntity
 
     fun findUserByAuthenticationId(authenticationId: AuthenticationId): UserEntity?
+    fun findUserByAuthenticationIdAndIsRemoved(authenticationId: AuthenticationId, isRemoved: Char): UserEntity?
 }
 
 @Repository
 interface UserEntityJpaRepository: JpaRepository<UserEntity, UUID> {
     fun findByAuthenticationEntity_AuthenticationId(authenticationId: String): UserEntity?
+
+    fun findByAuthenticationEntity_AuthenticationIdAndIsRemoved(authenticationId: String, isRemoved: Char): UserEntity?
 }
 
 @Repository
@@ -25,4 +28,9 @@ internal class UserEntityDaoImpl(
 
     override fun findUserByAuthenticationId(authenticationId: AuthenticationId): UserEntity? =
         delegate.findByAuthenticationEntity_AuthenticationId(authenticationId.value)
+
+    override fun findUserByAuthenticationIdAndIsRemoved(
+        authenticationId: AuthenticationId,
+        isRemoved: Char
+    ): UserEntity? = delegate.findByAuthenticationEntity_AuthenticationIdAndIsRemoved(authenticationId.value, isRemoved)
 }

@@ -20,7 +20,7 @@ class ConnectionModule(val confmKey: String) {
         var addrList: MutableList<Address> = arrayListOf()
         val addrRslt = connectionJuso(keyword)
         addrRslt.results.let { it: Results? ->
-            var juso = it?.juso!!.forEach { el ->
+            it?.juso!!.forEach { el ->
                 val addr: AddressObject = AddressObject(el.siNm, el.sggNm, el.zipNo, el.jibunAddr, el.roadAddrPart1,
                     el.admCd, el.rnMgtSn, el.udrtYn, el.buldMnnm, el.buldSlno)
                 addrList.add(addr)
