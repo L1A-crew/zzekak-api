@@ -1,10 +1,13 @@
 package l1a.jjakkak.infra.domain.user.entity
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Convert
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.FetchType
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
@@ -21,7 +24,7 @@ import java.time.Instant
 @Table(name = TABLE_AUTHENTICATION)
 @EntityListeners(AuditingEntityListener::class)
 class AuthenticationEntity(
-    @Id @Column(name = COLUMN_AUTHENTICATION_ID)
+    @Id @Column(name = COLUMN_AUTHENTICATION_ID) @GeneratedValue(strategy = GenerationType.IDENTITY)
     val authenticationId: String,
 
     @Column(name = COLUMN_TYPE)

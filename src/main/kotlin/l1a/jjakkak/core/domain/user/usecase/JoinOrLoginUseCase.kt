@@ -23,21 +23,17 @@ import java.security.spec.X509EncodedKeySpec
 import java.time.Instant
 import java.util.*
 
-interface JoinOrLoginUseCase {
-    fun joinOrLogin(message: JoinOrLoginMessage): Token
-}
-
 @Service
-internal class JoinOrLoginUseCaseImpl(
+internal class JoinOrLoginUseCase(
     val userRepo: UserRepository,
     @Value("\${lia.auth.private-key-path}")
     private val privateKey: String,
     @Value("\${lia.auth.public-key-path}")
     private val publicKey: String
-) : JoinOrLoginUseCase {
+) {
     val algorithm: Algorithm = Algorithm.RSA256(getPublicKey(), getPrivateKey())
 
-    override fun joinOrLogin(message: JoinOrLoginMessage): Token {
+    fun joinOrLogin(message: JoinOrLoginMessage): Token {
         val (token, type) = message
         val decodedToken = type.decode(token).also { it.validate() }
         
@@ -56,7 +52,7 @@ internal class JoinOrLoginUseCaseImpl(
                         withExpiresAt(now.plusSeconds(REFRESH_TOKEN_EXPIRY)).sign(algorithm)
             }
 
-       return Token(
+        return Token(
             accessToken = accessToken,
             refreshToken = refreshToken
         )

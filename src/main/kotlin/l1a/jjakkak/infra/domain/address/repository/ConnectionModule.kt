@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.util.DefaultUriBuilderFactory
 import org.springframework.web.util.UriBuilder
 
-class ConnectionModule(val confmKey: String) {
+internal class ConnectionModule(val confmKey: String) {
     private val addrUrl = "https://business.juso.go.kr/addrlink/addrLinkApi.do"
     private val coodrUrl = "https://business.juso.go.kr/addrlink/addrCoordApi.do"
     //주소(addr)검색 / 좌표(coord)검색

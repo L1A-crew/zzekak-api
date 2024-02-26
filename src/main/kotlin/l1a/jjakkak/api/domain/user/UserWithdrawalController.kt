@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
     produces = [MediaType.APPLICATION_JSON_VALUE],
     consumes = [MediaType.APPLICATION_JSON_VALUE]
 )
-interface UserWithdrawalController {
+internal interface UserWithdrawalController {
     @PostMapping(ApiUrl.USER_WITHDRAWAL)
     fun userWithdrawal(@RequestBody request: UserWithdrawalRequest): WithdrawalResponse
 
@@ -25,7 +25,7 @@ interface UserWithdrawalController {
 
 }
 @RestController
-class UserWithdrawalControllerImpl (
+internal class UserWithdrawalControllerImpl (
     val useCase: WithdrawalUseCase
 ): UserWithdrawalController  {
     override fun userWithdrawal(request: UserWithdrawalRequest): WithdrawalResponse =

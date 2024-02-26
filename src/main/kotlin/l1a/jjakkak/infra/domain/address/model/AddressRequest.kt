@@ -8,7 +8,7 @@ import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.jsonObject
 
 @Serializable
-data class AddressRequest (
+internal data class AddressRequest (
     val keyword: String,
     val confmKey: String,
     val currentPage: Int,

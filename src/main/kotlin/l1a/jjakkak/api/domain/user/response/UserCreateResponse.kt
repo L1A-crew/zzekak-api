@@ -7,7 +7,7 @@ import l1a.jjakkak.core.domain.user.UserQuery
 import java.time.Instant
 import java.util.UUID
 
-data class UserCreateResponse(
+internal data class UserCreateResponse(
     @JsonProperty("userId")
     val userId: UserId,
 

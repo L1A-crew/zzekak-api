@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController
     produces = [MediaType.APPLICATION_JSON_VALUE],
     consumes = [MediaType.APPLICATION_JSON_VALUE]
 )
-interface JoinOrLoginController {
+internal interface JoinOrLoginController {
     @PostMapping(ApiUrl.USER_JOIN_OR_LOGIN)
     fun joinOrLogin(@RequestBody request: JoinOrLoginRequest): TokenResponse
 }
 
 @RestController
-class JoinOrLoginControllerImpl(
+internal class JoinOrLoginControllerImpl(
     val useCase: JoinOrLoginUseCase
 ) : JoinOrLoginController {
     override fun joinOrLogin(request: JoinOrLoginRequest): TokenResponse =

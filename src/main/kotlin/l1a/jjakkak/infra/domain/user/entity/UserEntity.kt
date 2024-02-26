@@ -27,6 +27,9 @@ class UserEntity(
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "userEntity", cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = AuthenticationEntity.COLUMN_USER_ID)
     var authenticationEntity: AuthenticationEntity,
+
+    @Column(name = IS_REMOVED)
+    var isRemoved: Boolean
 ) {
     @Column(name = CREATED_AT)
     @CreatedDate
@@ -35,9 +38,6 @@ class UserEntity(
     @Column(name = COLUMN_UPDATED_AT)
     @LastModifiedDate
     lateinit var updatedAt: Instant
-
-    @Column(name = IS_REMOVED)
-    val isRemoved: Boolean = false
 
     companion object {
         const val TABLE_USER = "user"

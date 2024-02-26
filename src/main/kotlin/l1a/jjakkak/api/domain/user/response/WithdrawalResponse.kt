@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import l1a.jjakkak.core.domain.user.Token
 import l1a.jjakkak.core.domain.user.WithdrawalResult
 
-class WithdrawalResponse (
+internal class WithdrawalResponse (
     @JsonProperty("result")
     val quitResult: Char,
     @JsonProperty("message")

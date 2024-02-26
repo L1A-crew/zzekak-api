@@ -9,22 +9,26 @@ import java.util.UUID
 interface UserCommand {
     val id: UserId
     val authentication: AuthenticationCommand
+    val isRemoved: Boolean
 
     companion object {
         fun create(
             id: UserId,
             authentication: AuthenticationCommand,
+            isRemoved: Boolean = false
         ): UserCommand =
             UserCommandImpl(
                 id = id,
-                authentication = authentication
+                authentication = authentication,
+                isRemoved = isRemoved
             )
     }
 }
 
 internal data class UserCommandImpl(
     override val id: UserId,
-    override val authentication: AuthenticationCommand
+    override val authentication: AuthenticationCommand,
+    override val isRemoved: Boolean
 ) : UserCommand
 
 interface UserQuery : UserCommand {
@@ -32,7 +36,6 @@ interface UserQuery : UserCommand {
     override val authentication: AuthenticationQuery
     val createdAt: Instant
     val updatedAt: Instant
-    val isRemoved: Boolean
 
     fun deleteUser(): UserQuery =
 
@@ -52,14 +55,14 @@ interface UserQuery : UserCommand {
             authentication: AuthenticationQuery,
             createdAt: Instant,
             updatedAt: Instant,
-            isRemoved: Boolean
+            isRemoved: Boolean = false
         ): UserQuery =
             UserQueryImpl(
                 id = id,
                 authentication = authentication,
                 createdAt = createdAt,
                 updatedAt = updatedAt,
-                isRemoved = false
+                isRemoved = isRemoved
             )
     }
 }

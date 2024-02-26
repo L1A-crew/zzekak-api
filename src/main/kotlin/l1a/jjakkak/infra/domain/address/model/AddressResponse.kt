@@ -4,23 +4,24 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import l1a.jjakkak.core.domain.address.Address
 
 
-data class AddressResponse(
+internal data class AddressResponse(
     val results: Results?
-) {}
+)
 
-data class Results(
+internal data class Results(
     val common: Common?,
     val juso: List<Juso>?
-){}
-data class Common (
+)
+
+internal data class Common (
     val errorMessage: String?,
     val countPerPage: String?,
     val totalCount: String?,
     val errorCode: String?,
     val currentPage: String?,
-){}
-@JvmRecord
-data class Juso(    //해당 클래스는 좌표검색과 공용으로 사용하므로 기본값을 빈값으로 한다.
+)
+
+internal data class Juso(    //해당 클래스는 좌표검색과 공용으로 사용하므로 기본값을 빈값으로 한다.
     val detBdNmList: String = "",
     val engAddr: String = "",
     val rn: String = "",
@@ -47,7 +48,7 @@ data class Juso(    //해당 클래스는 좌표검색과 공용으로 사용하
     val buldSlno: String = "",
     val entX: String = "0.0",      //x좌표
     val entY: String = "0.0",      //y좌표
-){}
+)
 
 data class AddressObject (
     override val cityOrProvince: String,
@@ -60,6 +61,4 @@ data class AddressObject (
     val udrtYn: String,         //지하 여부. 0: 지상, 1: 지하
     val buldMnnm: String,       //건물 본번
     val buldSlno: String,       //건물 부번
-) : Address {
-
-}
+) : Address

@@ -7,7 +7,7 @@ import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.jsonObject
 
 @Serializable
-data class CoordinateRequest(
+internal data class CoordinateRequest(
     val confmKey: String,       //API KEY
     val admCd: String,          //행정구역코드
     val rnMgtSn: String,        //도로명 코드
