@@ -42,7 +42,7 @@ internal class JoinOrLoginUseCaseImpl(
         val decodedToken = type.decode(token).also { it.validate() }
         
         val user = userRepo
-            .findUserByAuthenticationIdAndIsRemoved(AuthenticationId(decodedToken.payload.sub), 'N')     //삭제여부 컬럼 추가
+            .findUserByAuthenticationIdAndIsRemoved(AuthenticationId(decodedToken.payload.sub), false)     //삭제여부 컬럼 추가
             ?: createUser(decodedToken, type).run { userRepo.save(this) }
 
         val (accessToken, refreshToken) = JWT.create()

@@ -32,7 +32,19 @@ interface UserQuery : UserCommand {
     override val authentication: AuthenticationQuery
     val createdAt: Instant
     val updatedAt: Instant
-    var isRemoved: Char
+    val isRemoved: Boolean
+
+    fun deleteUser(): UserQuery =
+
+        with(this) {
+             create(
+                 id = id,
+                 authentication = authentication,
+                 createdAt = createdAt,
+                 updatedAt = updatedAt,
+                 isRemoved = true
+            )
+        }
 
     companion object {
         fun create(
@@ -40,14 +52,14 @@ interface UserQuery : UserCommand {
             authentication: AuthenticationQuery,
             createdAt: Instant,
             updatedAt: Instant,
-            isRemoved: Char
+            isRemoved: Boolean
         ): UserQuery =
             UserQueryImpl(
                 id = id,
                 authentication = authentication,
                 createdAt = createdAt,
                 updatedAt = updatedAt,
-                isRemoved = 'N'
+                isRemoved = false
             )
     }
 }
@@ -57,5 +69,5 @@ internal data class UserQueryImpl(
     override val authentication: AuthenticationQuery,
     override val createdAt: Instant,
     override val updatedAt: Instant,
-    override var isRemoved: Char
+    override val isRemoved: Boolean
 ) : UserQuery

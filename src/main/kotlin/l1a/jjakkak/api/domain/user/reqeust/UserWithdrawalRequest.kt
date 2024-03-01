@@ -18,8 +18,7 @@ data class UserWithdrawalRequest (
 ) {
 
     fun toMessage() : WithdrawalMessage =  WithdrawalMessage(
-        userId = decodeToken(token),
-        isRemoved = 'Y'
+        userId = decodeToken(token)
     )
     private fun decodeToken(token: String)  = UUID.fromString(JWT.decode(token).subject)
 }

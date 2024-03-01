@@ -11,17 +11,17 @@ interface UserEntityDao {
     fun save(entity: UserEntity): UserEntity
 
     fun findUserByAuthenticationId(authenticationId: AuthenticationId): UserEntity?
-    fun findUserByAuthenticationIdAndIsRemoved(authenticationId: AuthenticationId, isRemoved: Char): UserEntity?
-    fun findUserByUserIdAndIsRemoved(userId: UUID, isRemoved: Char): UserEntity?
+    fun findUserByAuthenticationIdAndIsRemoved(authenticationId: AuthenticationId, isRemoved: Boolean): UserEntity?
+    fun findUserByUserIdAndIsRemoved(userId: UUID, isRemoved: Boolean): UserEntity?
 }
 
 @Repository
 interface UserEntityJpaRepository: JpaRepository<UserEntity, UUID> {
     fun findByAuthenticationEntity_AuthenticationId(authenticationId: String): UserEntity?
 
-    fun findByAuthenticationEntity_AuthenticationIdAndIsRemoved(authenticationId: String, isRemoved: Char): UserEntity?
-    @Query("select u from UserEntity u where u.userId = :userId and u.isRemoved = :isRemoved")
-    fun findByUserEntity_UserIdAndIsRemoved(userId: UUID, isRemoved: Char): UserEntity?
+    fun findByAuthenticationEntity_AuthenticationIdAndIsRemoved(authenticationId: String, isRemoved: Boolean): UserEntity?
+//    @Query("select u from UserEntity u where u.userId = :userId and u.isRemoved = :isRemoved")
+    fun findByUserIdAndIsRemoved(userId: UUID, isRemoved: Boolean): UserEntity?
 }
 
 @Repository
@@ -35,11 +35,11 @@ internal class UserEntityDaoImpl(
 
     override fun findUserByAuthenticationIdAndIsRemoved(
         authenticationId: AuthenticationId,
-        isRemoved: Char
+        isRemoved: Boolean
     ): UserEntity? = delegate.findByAuthenticationEntity_AuthenticationIdAndIsRemoved(authenticationId.value, isRemoved)
 
-    override fun findUserByUserIdAndIsRemoved(userId: UUID, isRemoved: Char): UserEntity?
-     = delegate.findByUserEntity_UserIdAndIsRemoved(userId, isRemoved)
+    override fun findUserByUserIdAndIsRemoved(userId: UUID, isRemoved: Boolean): UserEntity?
+     = delegate.findByUserIdAndIsRemoved(userId, isRemoved)
 
 
 }

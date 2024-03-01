@@ -37,8 +37,7 @@ class UserEntity(
     lateinit var updatedAt: Instant
 
     @Column(name = IS_REMOVED)
-    var isRemoved: Char = 'N'
-
+    val isRemoved: Boolean = false
 
     companion object {
         const val TABLE_USER = "user"

@@ -9,7 +9,7 @@ import java.util.*
 interface UserRepository {
     fun save(user: UserCommand): UserQuery
 
-    fun findUserByAuthenticationIdAndIsRemoved(authenticationId: AuthenticationId, isRemoved: Char): UserQuery?
+    fun findUserByAuthenticationIdAndIsRemoved(authenticationId: AuthenticationId, isRemoved: Boolean): UserQuery?
 
-    fun findUserByUserIdAndIsRemoved(userId: UUID, isRemoved: Char): UserQuery?
+    fun findUserByUserIdAndIsRemoved(userId: UUID, isRemoved: Boolean): UserQuery?
 }
