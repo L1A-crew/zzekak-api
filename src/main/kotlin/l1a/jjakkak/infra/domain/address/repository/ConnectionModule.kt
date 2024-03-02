@@ -1,11 +1,13 @@
 package l1a.jjakkak.infra.domain.address.repository
 
 import kotlinx.serialization.json.*
+import l1a.jjakkak.api.config.exception.ExceptionEnum
+import l1a.jjakkak.api.config.exception.ZzekakException
 import l1a.jjakkak.core.domain.address.Address
 import l1a.jjakkak.core.domain.address.Coordinate
-import l1a.jjakkak.core.domain.exception.ZzekakException
 import l1a.jjakkak.infra.domain.address.model.*
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.util.DefaultUriBuilderFactory
@@ -80,7 +82,7 @@ internal class ConnectionModule(val confmKey: String) {
             .retrieve()
             .bodyToMono(AddressResponse::class.java)
             .onErrorMap { e ->
-                ZzekakException(e.message)
+                throw ZzekakException(ExceptionEnum.SERVER_ERROR)
             }
             .block()
         return response!!
