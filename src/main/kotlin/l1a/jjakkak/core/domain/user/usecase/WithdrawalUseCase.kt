@@ -8,14 +8,14 @@ import l1a.jjakkak.core.domain.user.repository.UserRepository
 import org.springframework.stereotype.Service
 
 interface WithdrawalUseCase {
-    fun widthdrawal(message: WithdrawalMessage): WithdrawalResult
+    fun withdrawal(message: WithdrawalMessage): WithdrawalResult
 }
 
 @Service
 internal class WithdrawalUseCaseImpl(
     val userRepo: UserRepository
 ): WithdrawalUseCase {
-    override fun widthdrawal(message: WithdrawalMessage): WithdrawalResult {
+    override fun withdrawal(message: WithdrawalMessage): WithdrawalResult {
         val (userId) = message
         val user = userRepo.findUserByUserIdAndIsRemoved(userId, false)
             ?: throw ZzekakException(ExceptionEnum.NO_EXIST_USER)

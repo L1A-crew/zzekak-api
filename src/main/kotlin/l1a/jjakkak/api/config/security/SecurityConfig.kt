@@ -48,7 +48,7 @@ internal class SecurityConfig {
         val AUTHENTICATION_BY_PASS_LIST =
             listOf(
                 ApiUrl.USER_JOIN_OR_LOGIN,
-//                "${ApiUrl.USER}/test",
+                ApiUrl.USER_TOKEN_REFRESH,
                 "${ApiUrl.DOCS}/**"
             ).toTypedArray()
     }

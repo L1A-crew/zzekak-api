@@ -12,7 +12,6 @@ enum class AuthenticationType(val code: String) {
                     .map { Base64.getUrlDecoder().decode(it) }
                     .map { String(it) }
 
-
             val decodedHeader = ObjectMapper.objectMapper.readValue<AuthToken.Header>(header)
             val decodedPayload = ObjectMapper.objectMapper.readValue<AuthToken.Payload>(payload)
 

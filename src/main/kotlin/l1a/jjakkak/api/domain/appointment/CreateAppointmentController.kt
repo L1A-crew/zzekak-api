@@ -1,7 +1,6 @@
 package l1a.jjakkak.api.domain.appointment
 
 import l1a.jjakkak.api.ApiUrl
-import l1a.jjakkak.api.config.security.Me
 import l1a.jjakkak.api.domain.appointment.response.CreateAppointmentResponse
 import l1a.jjakkak.core.domain.address.Address
 import l1a.jjakkak.core.domain.address.AddressId
