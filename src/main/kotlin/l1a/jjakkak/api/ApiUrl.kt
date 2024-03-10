@@ -9,8 +9,9 @@ object ApiUrl {
     const val USER = "/user"
     const val USER_JOIN_OR_LOGIN = "$USER/joinOrLogin"
     const val USER_WITHDRAWAL = "$USER/withdrawal"
+    const val USER_TOKEN_REFRESH = "$USER/token/refresh"
 
     // Appointment
-    private const val APPOINTMENT = "/appointment"
+    const val APPOINTMENT = "/appointment"
     const val CREATE_APPOINTMENT = "$APPOINTMENT/create"
 }
