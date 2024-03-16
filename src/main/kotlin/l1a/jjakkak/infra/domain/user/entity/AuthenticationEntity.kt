@@ -24,7 +24,7 @@ import java.time.Instant
 @Table(name = TABLE_AUTHENTICATION)
 @EntityListeners(AuditingEntityListener::class)
 class AuthenticationEntity(
-    @Id @Column(name = COLUMN_AUTHENTICATION_ID) @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @Column(name = COLUMN_AUTHENTICATION_ID)
     val authenticationId: String,
 
     @Column(name = COLUMN_TYPE)

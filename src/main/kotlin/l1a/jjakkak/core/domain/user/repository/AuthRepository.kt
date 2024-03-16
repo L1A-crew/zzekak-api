@@ -1,5 +1,14 @@
 package l1a.jjakkak.core.domain.user.repository
 
 interface AuthRepository {
-    fun getKakaoLoginPublicKey(): List<String>
+    fun getKakaoLoginPublicKey(): List<RSAPublicKeyInfo>
+
+    data class RSAPublicKeyInfo(
+        val kid: String,
+        val kty: String,
+        val alg: String,
+        val use: String,
+        val n: String,
+        val e: String
+    )
 }
