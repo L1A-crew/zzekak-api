@@ -1,17 +1,13 @@
 package l1a.jjakkak.api.config.security
 
-import com.auth0.jwt.exceptions.TokenExpiredException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import l1a.jjakkak.api.config.security.SecurityConfig.Companion.AUTHENTICATION_BY_PASS_LIST
 import org.springframework.security.authentication.InsufficientAuthenticationException
-import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.util.AntPathMatcher
-import org.springframework.web.client.HttpClientErrorException.BadRequest
 import org.springframework.web.filter.OncePerRequestFilter
-import java.time.Instant
 
 internal class JWTAuthenticationFilter(private val jwtTokenProvider: JwtTokenProvider) : OncePerRequestFilter() {
     private val antPathMatcher = AntPathMatcher()
@@ -28,11 +24,9 @@ internal class JWTAuthenticationFilter(private val jwtTokenProvider: JwtTokenPro
 
         runCatching {
             request.getHeader(HEADER_AUTHENTICATION)?.let { token ->
-                if (jwtTokenProvider.validationToken(token)) {
-                    jwtTokenProvider.getAuthentication(token)
-                } else {
-                    throw TokenExpiredException("token is expired", Instant.now())
-                }
+                jwtTokenProvider.validate(token)
+
+                jwtTokenProvider.getAuthentication(token)
             } ?: throw InsufficientAuthenticationException("token is required to access service")
         }.onSuccess { authentication ->
             SecurityContextHolder.getContext().authentication = authentication

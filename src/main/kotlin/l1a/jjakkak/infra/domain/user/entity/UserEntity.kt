@@ -11,6 +11,7 @@ import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import l1a.jjakkak.core.domain.user.UserId
 import l1a.jjakkak.infra.domain.user.entity.UserEntity.Companion.TABLE_USER
+import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -26,6 +27,9 @@ class UserEntity(
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "userEntity", cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = AuthenticationEntity.COLUMN_USER_ID)
     var authenticationEntity: AuthenticationEntity,
+
+    @Column(name = IS_REMOVED)
+    var isRemoved: Boolean
 ) {
     @Column(name = CREATED_AT)
     @CreatedDate
@@ -40,6 +44,7 @@ class UserEntity(
         const val COLUMN_USER_ID = "user_id"
         const val CREATED_AT = "created_at"
         const val COLUMN_UPDATED_AT = "updated_at"
+        const val IS_REMOVED = "is_removed"
 
     }
 }

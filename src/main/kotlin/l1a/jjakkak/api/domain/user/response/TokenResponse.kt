@@ -3,7 +3,7 @@ package l1a.jjakkak.api.domain.user.response
 import com.fasterxml.jackson.annotation.JsonProperty
 import l1a.jjakkak.core.domain.user.Token
 
-data class TokenResponse(
+internal data class TokenResponse(
     @JsonProperty("accessToken")
     val accessToken: String,
     @JsonProperty("refreshToken")

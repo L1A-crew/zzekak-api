@@ -2,6 +2,7 @@ package l1a.jjakkak.core.domain.user.usecase
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.exceptions.JWTVerificationException
 import l1a.jjakkak.core.domain.user.AuthToken
 import l1a.jjakkak.core.domain.user.AuthenticationCommand
 import l1a.jjakkak.core.domain.user.AuthenticationId
@@ -10,7 +11,10 @@ import l1a.jjakkak.core.domain.user.Token
 import l1a.jjakkak.core.domain.user.UserCommand
 import l1a.jjakkak.core.domain.user.UserId
 import l1a.jjakkak.core.domain.user.message.JoinOrLoginMessage
+import l1a.jjakkak.core.domain.user.repository.AuthRepository
 import l1a.jjakkak.core.domain.user.repository.UserRepository
+import l1a.jjakkak.core.domain.user.usecase.common.JwtMixin
+import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.nio.file.Files
@@ -23,41 +27,45 @@ import java.security.spec.X509EncodedKeySpec
 import java.time.Instant
 import java.util.*
 
-interface JoinOrLoginUseCase {
-    fun joinOrLogin(message: JoinOrLoginMessage): Token
-}
-
 @Service
-internal class JoinOrLoginUseCaseImpl(
+internal class JoinOrLoginUseCase(
     val userRepo: UserRepository,
+    val authRepo: AuthRepository,
     @Value("\${lia.auth.private-key-path}")
     private val privateKey: String,
     @Value("\${lia.auth.public-key-path}")
-    private val publicKey: String
-) : JoinOrLoginUseCase {
-    val algorithm: Algorithm = Algorithm.RSA256(getPublicKey(), getPrivateKey())
+    private val publicKey: String,
+    @Value("\${lia.auth.social-login-app-key}")
+    private val appKey: String
+) : JwtMixin, InitializingBean {
+    lateinit var algorithm: Algorithm
 
-    override fun joinOrLogin(message: JoinOrLoginMessage): Token {
+    override fun afterPropertiesSet() {
+        algorithm = Algorithm.RSA256(getPublicKey(publicKey), getPrivateKey(privateKey))
+    }
+
+    fun joinOrLogin(message: JoinOrLoginMessage): Token {
         val (token, type) = message
 
-        val decodedToken = type.decode(token).also { it.validate() }
+        val decodedToken = type.decode(token)
+
+        val selectedPublicKeyInfo =
+            authRepo.getKakaoLoginPublicKey().find { it.kid == decodedToken.header.kid }
+                ?: throw JWTVerificationException("Not Found Kakao PublicKeyInfo")
+
+        type.validate(
+            token = token,
+            appKey = appKey,
+            rsaPublicKeyInfo = selectedPublicKeyInfo
+        )
 
         val user = userRepo
-            .findUserByAuthenticationId(AuthenticationId(decodedToken.payload.sub))
+            .findUserByAuthenticationIdAndIsRemoved(AuthenticationId(decodedToken.payload.sub), false)     //삭제여부 컬럼 추가
             ?: createUser(decodedToken, type).run { userRepo.save(this) }
 
-        val (accessToken, refreshToken) = JWT.create()
-            .withIssuer(TOKEN_ISSUER)
-            .withSubject(user.id.value.toString())
-            .withIssuedAt(Instant.now())
-            .run {
-                val now = Instant.now()
+        val (accessToken, refreshToken) = createToken(user.id.value, algorithm)
 
-                withExpiresAt(now.plusSeconds(ACCESS_TOKEN_EXPIRY)).sign(algorithm) to
-                        withExpiresAt(now.plusSeconds(REFRESH_TOKEN_EXPIRY)).sign(algorithm)
-            }
-
-       return Token(
+        return Token(
             accessToken = accessToken,
             refreshToken = refreshToken
         )
@@ -71,30 +79,4 @@ internal class JoinOrLoginUseCaseImpl(
                 type = type
             )
         )
-
-    private fun getPrivateKey(): RSAPrivateKey {
-        val keyBytes = Files.readAllBytes(Paths.get(privateKey))
-        return KeyFactory.getInstance(ALG)
-            .generatePrivate(PKCS8EncodedKeySpec(keyBytes)) as RSAPrivateKey
-    }
-
-    private fun getPublicKey(): RSAPublicKey {
-        val publicKeyPEM = Files.readString(Paths.get(publicKey))
-            .replace("-----BEGIN PUBLIC KEY-----", "")
-            .replace("-----END PUBLIC KEY-----", "")
-            .replace("\\s".toRegex(), "")
-
-        val decoded = Base64.getDecoder().decode(publicKeyPEM)
-        return KeyFactory.getInstance(ALG)
-            .generatePublic(X509EncodedKeySpec(decoded)) as RSAPublicKey
-    }
-
-    companion object {
-        const val TOKEN_ISSUER = "liaServer"
-
-        const val ACCESS_TOKEN_EXPIRY = 60 * 60L
-        const val REFRESH_TOKEN_EXPIRY = 60 * 60 * 24 * 30 * 6L
-
-        const val ALG = "RSA"
-    }
 }

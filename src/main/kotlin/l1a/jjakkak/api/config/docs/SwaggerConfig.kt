@@ -17,10 +17,18 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class SwaggerConfig {
     @Bean
-    fun authApi(): GroupedOpenApi =
+    fun userApi(): GroupedOpenApi =
         GroupedOpenApi.builder()
-            .group("user API")
-            .pathsToMatch("${ApiUrl.USER_JOIN_OR_LOGIN}/**")
+            .group("User API")
+            .pathsToMatch("${ApiUrl.USER}/**")
+            .addOpenApiCustomizer(openApiCustomizer())
+            .build()
+
+    @Bean
+    fun appointmentApi(): GroupedOpenApi =
+        GroupedOpenApi.builder()
+            .group("Appointment API")
+            .pathsToMatch("${ApiUrl.APPOINTMENT}/**")
             .addOpenApiCustomizer(openApiCustomizer())
             .build()
    

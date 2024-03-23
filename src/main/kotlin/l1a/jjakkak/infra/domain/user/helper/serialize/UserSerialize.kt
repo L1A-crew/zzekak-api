@@ -8,7 +8,8 @@ interface UserSerialize: AuthenticationSerialize {
     fun UserCommand.toEntity() =
         UserEntity(
             userId = id,
-            authenticationEntity = authentication.toEntity()
+            authenticationEntity = authentication.toEntity(),
+            isRemoved = isRemoved
         ).apply {
             authenticationEntity.userEntity = this
         }

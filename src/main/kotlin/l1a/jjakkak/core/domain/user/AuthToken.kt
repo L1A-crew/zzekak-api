@@ -10,7 +10,7 @@ data class AuthToken(
 ) {
     fun validate() =
         with(Instant.ofEpochSecond(payload.exp)) {
-            if (this.isAfter(Instant.now())) {
+            if (this.isBefore(Instant.now())) {
                 throw TokenExpiredException(EXPIRED_MESSAGE, this)
             }
         }
